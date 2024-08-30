@@ -3,10 +3,7 @@ package com.example.calculadora.Analizadores;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.*;
-import com.example.calculadora.report.ErrorSinLex;
-
 %%
-
 %class AnalizadorLexico
 %public
 %unicode

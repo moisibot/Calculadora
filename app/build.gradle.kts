@@ -62,6 +62,7 @@ dependencies {
     implementation("com.github.vbmacher:java-cup-runtime:11b-20160615-3")
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.media3.common)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

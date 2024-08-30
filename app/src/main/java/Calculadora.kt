@@ -2,6 +2,7 @@ package com.example.calculadora
 
 import com.example.calculadora.Analizadores.AnalizadorLexico
 import com.example.calculadora.Analizadores.parser
+import java_cup.runtime.Symbol
 import java.io.StringReader
 
 class Calculadora {
@@ -11,10 +12,11 @@ class Calculadora {
         val parser = parser(lexer)
 
         return try {
-            parser.parse().value as Double
+            val result = parser.parse()
+            result.value as Double
         } catch (e: Exception) {
             println("Error al calcular la expresión: ${e.message}")
-            Double.NaN
+            throw Exception("Error en el cálculo: ${e.message}")
         }
     }
 }
