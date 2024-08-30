@@ -1,47 +1,29 @@
 package com.example.calculadora
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.calculadora.ui.theme.CalculadoraTheme
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+    private lateinit var inputExpresion: EditText
+    private lateinit var btnCalcular: Button
+    private lateinit var txtResultado: TextView
+    private val calculadora = Calculadora()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            CalculadoraTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        inputExpresion = findViewById(R.id.inputExpresion)
+        btnCalcular = findViewById(R.id.btnCalcular)
+        txtResultado = findViewById(R.id.txtResultado)
+
+        btnCalcular.setOnClickListener {
+            val expresion = inputExpresion.text.toString()
+            val resultado = calculadora.calcular(expresion)
+            txtResultado.text = "Resultado: $resultado"
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CalculadoraTheme {
-        Greeting("Android")
     }
 }

@@ -1,0 +1,54 @@
+package com.example.calculadora.Analizadores;
+
+import com.example.calculadora.report.*;
+import com.example.calculadora.objetos.*;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.util.List;
+
+parser code {:
+    public static ArrayList<String> errores = new ArrayList<>();
+
+    public void syntax_error(Symbol s) {
+        errores.add("Error sintáctico en línea " + (s.left + 1) + ", columna " + (s.right + 1) + ": " + s.value);
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+        String errorMsg = "Error sintáctico irrecuperable en línea " + (s.left + 1) + ", columna " + (s.right + 1) + ": " + s.value;
+        errores.add(errorMsg);
+        System.out.println(errorMsg);
+    }
+
+    public static ArrayList<String> getErrores() {
+        return errores;
+    }
+:}
+
+// Terminales
+terminal SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_ABIERTO, PARENTESIS_CERRADO;
+terminal Double NUMERO;
+
+// No terminales
+non terminal Double expr;
+
+// Precedencia
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
+precedence left PARENTESIS_ABIERTO, PARENTESIS_CERRADO;
+
+// Reglas de producción
+start with expr;
+
+expr ::= NUMERO:n
+       {: RESULT = n; :}
+       | expr:e1 SUMA expr:e2
+       {: RESULT = e1 + e2; :}
+       | expr:e1 RESTA expr:e2
+       {: RESULT = e1 - e2; :}
+       | expr:e1 MULTIPLICACION expr:e2
+       {: RESULT = e1 * e2; :}
+       | expr:e1 DIVISION expr:e2
+       {: RESULT = e1 / e2; :}
+       | PARENTESIS_ABIERTO expr:e PARENTESIS_CERRADO
+       {: RESULT = e; :}
+       ;
